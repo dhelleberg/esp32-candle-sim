@@ -33,7 +33,8 @@ cache:
   directories:
     - "~/.platformio"
 env:
-  - PLATFORMIO_BUILD_FLAGS="'-DWSSID="yourSSID"' '-DWPWD="mypwd"'"
+  - PLATFORMIO_BUILD_FLAGS="'-DWSSID="yourSSID"'"
+  - PLATFORMIO_BUILD_FLAGS="'-DWPWD="mypwd"'"
 
 install:
   - pip install -U platformio
