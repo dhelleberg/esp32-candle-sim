@@ -1,4 +1,7 @@
-#ESP-32 firmware for candle-simualtion 
+# ESP-32 firmware for candle-simualtion 
+
+[![Build Status](https://travis-ci.org/dhelleberg/esp32-candle-sim.svg?branch=master)](https://travis-ci.org/dhelleberg/esp32-candle-sim)
+
 Uses an ESP-32 to control a neopixel ring to simulate a candle
 Features
 * candle simulation
