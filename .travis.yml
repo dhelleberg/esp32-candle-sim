@@ -26,21 +26,21 @@
 
 language: python
 python:
-     - "2.7"
+  - "2.7"
 
- sudo: false
- cache:
-     directories:
-         - "~/.platformio"
-  env:
-         - PLATFORMIO_BUILD_FLAGS="'-DWSSID="yourSSID"' '-DWPWD="mypwd"'"
+sudo: false
+cache:
+  directories:
+    - "~/.platformio"
+env:
+  - PLATFORMIO_BUILD_FLAGS="'-DWSSID="yourSSID"' '-DWPWD="mypwd"'"
 
- install:
-     - pip install -U platformio
-     - platformio update
+install:
+  - pip install -U platformio
+  - platformio update
 
- script:
-     - platformio run
+script:
+  - platformio run
 
 
 #
