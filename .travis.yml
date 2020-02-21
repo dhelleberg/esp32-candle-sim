@@ -33,7 +33,7 @@ cache:
   directories:
     - "~/.platformio"
 env:
-  - PLATFORMIO_BUILD_FLAGS="-DWSSID=\"yourSSID\" -DWPWD=\"mypwd\""
+  - PLATFORMIO_BUILD_FLAGS="'-DWSSID=\"yourSSID\"' '-DWPWD=\"mypwd\"'"
   
 
 install:
