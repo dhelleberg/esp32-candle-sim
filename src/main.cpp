@@ -9,7 +9,7 @@ const char* ssid = WSSID;  // Enter SSID here
 const char* password = WPWD;  //Enter Password here
 
 const int WIFI_TIMEOUT_RESTART_S=60;
-#define PIXEL_PIN 5
+#define PIXEL_PIN 4
 #define PIXEL_COUNT 12
 
 //Adafruit_NeoPixel strip(PIXEL_COUNT, PIXEL_PIN,  NEO_GRBW + NEO_KHZ800);
@@ -19,7 +19,7 @@ CRGB leds[PIXEL_COUNT];
 
 long lastTime;
 int interval;
-const int EFFECT_INTERVAL = 60 * 1000 * 15;
+const int EFFECT_INTERVAL = 60 * 1000 * 10;
 const int UPDATE_INTERVAL = 60 * 1000 * 5;
 const int RECONNECT_INTERVAL = 30 * 1000;
 
@@ -37,6 +37,8 @@ int effect = -1;
 
 WiFiClient net;
 MQTTClient client;
+
+uint8_t gHue = 0; // rotating "base color" used by many of the patterns
 
 void messageReceived(String &topic, String &payload) {
   Serial.println("incoming: " + topic + " - " + payload);
@@ -117,7 +119,7 @@ void SimulateFire ()
         leds[i].setRGB(LightValue[i * 3], LightValue[i * 3 + 1], LightValue[i * 3 + 2]);
         FastLED.show();      
       }
-      interval = random(50,200);
+      interval = random(20,280);
     }
   
 }
@@ -166,11 +168,23 @@ bool effect_flash() {
   return true;
 }
 
+bool effect_rainbow() {
+  Serial.println("render rainbow");
+  for(int count = 0; count < 400; count++) {
+    // do some periodic updates
+    EVERY_N_MILLISECONDS( 2 ) { gHue++; } // slowly cycle the "base color" through the rainbow
+    fill_rainbow( leds, PIXEL_COUNT, gHue, 7);
+    FastLED.show();
+    delay(5);
+  }
+  return true;
+}
+
 void renderEffect() {
   bool finished = false;
   //based on effect selection render one special effect
   if( effect = -1)
-    effect = random(0,3);
+    effect = random(0,4);
   switch (effect)
   {
     case 0:
@@ -182,6 +196,10 @@ void renderEffect() {
     case 2:
       finished = effect_flash();
     break;
+    case 3:
+      finished = effect_rainbow();
+    break;
+
   }
   
   if(finished) {
@@ -241,7 +259,7 @@ void loop() {
         }
         Serial.println("reconnected: "+String(repeat));
         if(repeat)
-          client.subscribe("/hello");
+          client.subscribe("/fire-status");
     }  
   }
   
